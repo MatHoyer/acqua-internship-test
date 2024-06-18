@@ -1,32 +1,38 @@
 'use client';
 
-import { useDragAndDrop } from '@formkit/drag-and-drop/react';
+import { useToDoStore } from '@/app/Store';
 import SmartBar from '@/components/smartBar';
-
-const TODO_ITEMS = [
-  'AI Fish or Phish',
-  'Compile Coral DB',
-  'AI Sub Navigation',
-  'Server Water Cooling',
-  'Whale Song AI',
-  'Marine Chatbot',
-];
-
-const DONE_ITEMS = ['Dolphin Comm Sim'];
+import { useDragAndDrop } from '@formkit/drag-and-drop/react';
+import { useEffect } from 'react';
 
 export default function TodoBoard() {
+  const todoStore = useToDoStore();
+
   const [todoList, todoItems, setTodoItems] = useDragAndDrop<
     HTMLUListElement,
     string
-  >(TODO_ITEMS, {
+  >(todoStore.todos, {
     group: 'todoList',
+    handleEnd: (data) => {
+      console.log('todo');
+      todoStore.setAsDone(data.targetData.node.data.value);
+    },
   });
   const [doneList, doneItems, setDoneItems] = useDragAndDrop<
     HTMLUListElement,
     string
-  >(DONE_ITEMS, {
+  >(todoStore.doneTodos, {
     group: 'todoList',
+    handleEnd: (data) => {
+      console.log('done');
+      todoStore.setAsTodo(data.targetData.node.data.value);
+    },
   });
+
+  useEffect(() => {
+    setTodoItems(todoStore.todos);
+    setDoneItems(todoStore.doneTodos);
+  }, [todoStore.todos, todoStore.doneTodos]);
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-acqua-soft-white">
