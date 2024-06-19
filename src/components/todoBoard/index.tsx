@@ -14,7 +14,6 @@ export default function TodoBoard() {
   >(todoStore.todos, {
     group: 'todoList',
     handleEnd: (data) => {
-      console.log('todo');
       todoStore.setAsDone(data.targetData.node.data.value);
     },
   });
@@ -24,7 +23,6 @@ export default function TodoBoard() {
   >(todoStore.doneTodos, {
     group: 'todoList',
     handleEnd: (data) => {
-      console.log('done');
       todoStore.setAsTodo(data.targetData.node.data.value);
     },
   });
@@ -32,19 +30,14 @@ export default function TodoBoard() {
   useEffect(() => {
     setTodoItems(todoStore.todos);
     setDoneItems(todoStore.doneTodos);
-  }, [todoStore.todos, todoStore.doneTodos]);
+  }, [todoStore.todos, todoStore.doneTodos, setTodoItems, setDoneItems]);
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-acqua-soft-white">
       <h1 className="text-3xl font-bold text-acqua-deep-blue my-6">
         Acqua Board
       </h1>
-      <SmartBar
-        todoItems={todoItems}
-        doneItems={doneItems}
-        setTodoItems={setTodoItems}
-        setDoneItems={setDoneItems}
-      />
+      <SmartBar />
       <div className="flex justify-center items-start gap-8 p-5">
         <ul
           ref={todoList}

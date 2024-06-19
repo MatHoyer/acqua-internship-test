@@ -1,6 +1,6 @@
 import { GeistSans } from 'geist/font/sans';
-import './globals.css';
 import { ReactNode } from 'react';
+import './globals.css';
 
 const defaultUrl = 'http://localhost:3000';
 
